@@ -3,113 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speedrun Leaderboard Automatique</title>
+    <title>Speedrun Leaderboard - Profil</title>
     <style>
         :root { --accent: #00ff88; --bg: #0d0d0d; --card: #1a1a1a; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
-        header { padding: 40px; background: linear-gradient(to bottom, #222, #0d0d0d); border-bottom: 2px solid var(--accent); }
+        header { padding: 30px; background: #222; border-bottom: 2px solid var(--accent); }
         .container { max-width: 1000px; margin: auto; padding: 20px; }
         
-        .nav-btn { background: none; border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; cursor: pointer; border-radius: 5px; margin: 5px; transition: 0.3s; }
+        .nav-btn { background: none; border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; cursor: pointer; border-radius: 5px; margin: 5px; }
         .nav-btn:hover { background: var(--accent); color: black; }
 
-        table { width: 100%; border-collapse: collapse; background: var(--card); margin-top: 30px; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        th { background: #333; padding: 15px; color: var(--accent); text-transform: uppercase; font-size: 0.9em; }
-        td { padding: 15px; border-bottom: 1px solid #222; }
-        tr:last-child td { border: none; }
-        tr:hover { background: #252525; }
-
-        .video-btn { color: #00ccff; text-decoration: none; font-weight: bold; border: 1px solid #00ccff; padding: 5px 10px; border-radius: 4px; font-size: 0.8em; }
-        .video-btn:hover { background: #00ccff; color: black; }
+        .account-badge { background: #333; padding: 10px; border-radius: 20px; font-size: 0.9em; margin-bottom: 20px; display: inline-block; }
         
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #222; color: white; border: 1px solid #444; border-radius: 5px; box-sizing: border-box;}
+        
+        table { width: 100%; border-collapse: collapse; background: var(--card); margin-top: 20px; }
+        th, td { padding: 15px; border-bottom: 1px solid #222; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🏆 CLASSEMENT SPEEDRUN</h1>
-    <p>Minecraft, Pokémon & plus</p>
+    <h1>🏆 SPEEDRUN WORLD</h1>
+    <div id="userDisplay" class="account-badge">Non connecté</div>
     <nav>
-        <button class="nav-btn" onclick="show('leaderboard')">VOIR LES SCORES</button>
-        <button class="nav-btn" onclick="show('submit')">ENVOYER UN RUN</button>
+        <button class="nav-btn" onclick="show('leaderboard')">Classement</button>
+        <button class="nav-btn" onclick="show('submit')">Envoyer un Run</button>
+        <button class="nav-btn" id="btnAccount" onclick="show('account')">Créer un Compte</button>
     </nav>
 </header>
 
 <div class="container">
+
     <section id="leaderboard">
-        <table>
-            <thead>
-                <tr>
-                    <th>Rang</th>
-                    <th>Joueur</th>
-                    <th>Jeu</th>
-                    <th>Temps</th>
-                    <th>Pays</th>
-                    <th>Vidéo</th>
-                </tr>
-            </thead>
-            <tbody id="rankingData">
-                <tr><td colspan="6">Chargement des données en direct...</td></tr>
-            </tbody>
-        </table>
+        <tbody id="rankingData"> </tbody>
+        </section>
+
+    <section id="account" class="hidden">
+        <h2 id="accountTitle">Créer ton Profil</h2>
+        <div id="accountForm">
+            <input type="text" id="regPseudo" placeholder="Choisis un Pseudo">
+            <input type="password" id="regPass" placeholder="Mot de passe">
+            <select id="regCountry">
+                <option value="France 🇫🇷">France 🇫🇷</option>
+                <option value="Belgique 🇧🇪">Belgique 🇧🇪</option>
+                <option value="Canada 🇨🇦">Canada 🇨🇦</option>
+                <option value="Suisse 🇨🇭">Suisse 🇨🇭</option>
+                <option value="Maroc 🇲🇦">Maroc 🇲🇦</option>
+            </select>
+            <button class="nav-btn" onclick="register()">S'enregistrer</button>
+        </div>
+        <div id="loggedInView" class="hidden">
+            <p>Tu es connecté !</p>
+            <button class="nav-btn" onclick="logout()">Se déconnecter</button>
+        </div>
     </section>
 
     <section id="submit" class="hidden">
-        <h2>Comment participer ?</h2>
-        <p>1. Enregistre ton speedrun avec un chronomètre visible.</p>
-        <p>2. Publie la vidéo sur YouTube.</p>
-        <p>3. Remplis le formulaire officiel via le bouton ci-dessous :</p>
-        <br>
-        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPgIV5ACOCnu294AGNj-3ElL8krYrv3PWvWDmUfqAGASeh/pub?gid=815242411&single=true&output=csv" target="_blank" class="nav-btn" style="background: var(--accent); color: black;">OUVRIR LE FORMULAIRE</a>
+        <h2>Envoyer ton Record</h2>
+        <p id="submitWarning" style="color: orange;">⚠️ Connecte-toi pour que ton pseudo soit pré-rempli !</p>
+        <a href="TON_LIEN_GOOGLE_FORM" id="formLink" target="_blank" class="nav-btn">Accéder au Formulaire</a>
     </section>
+
 </div>
 
 <script>
-    // COLLE TON LIEN CSV CI-DESSOUS
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPIv5ACOCNu294AGNj-3EIL8krYrv3PWVwdMUfqAGASetH/pub?gid=815242411&single=true&output=csv";
+    // --- GESTION DU COMPTE ---
+    function register() {
+        const user = {
+            pseudo: document.getElementById('regPseudo').value,
+            pays: document.getElementById('regCountry').value,
+            pass: document.getElementById('regPass').value
+        };
+        if(user.pseudo && user.pass) {
+            localStorage.setItem('speedrunUser', JSON.stringify(user));
+            updateUI();
+            alert("Compte créé !");
+            show('leaderboard');
+        }
+    }
 
-    async function loadData() {
-        try {
-            const response = await fetch(CSV_URL);
-            const data = await response.text();
-            const rows = data.split('\n').slice(1); // Coupe la ligne des titres
-            
-            const tableBody = document.getElementById('rankingData');
-            tableBody.innerHTML = "";
+    function logout() {
+        localStorage.removeItem('speedrunUser');
+        updateUI();
+    }
 
-            // Tri par temps (la colonne Temps est l'index 3 car 0=Horodateur, 1=Pseudo, 2=Jeu, 3=Temps)
-            rows.sort((a, b) => a.split(',')[3].localeCompare(b.split(',')[3]));
-
-            rows.forEach((row, index) => {
-                const cols = row.split(',');
-                if(cols.length < 5) return;
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td><b>${cols[1]}</b></td> 
-                    <td>${cols[2]}</td>
-                    <td style="color: var(--accent); font-weight: bold;">${cols[3]}</td>
-                    <td>${cols[4]}</td>
-                    <td><a href="${cols[5]}" target="_blank" class="video-btn">Regarder</a></td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        } catch (error) {
-            console.error("Erreur de chargement :", error);
+    function updateUI() {
+        const user = JSON.parse(localStorage.getItem('speedrunUser'));
+        const display = document.getElementById('userDisplay');
+        const btnAcc = document.getElementById('btnAccount');
+        
+        if(user) {
+            display.innerHTML = `👤 ${user.pseudo} (${user.pays})`;
+            btnAcc.innerText = "Mon Compte";
+            document.getElementById('accountForm').classList.add('hidden');
+            document.getElementById('loggedInView').classList.remove('hidden');
+            document.getElementById('submitWarning').innerHTML = "✅ Identifié en tant que " + user.pseudo;
+        } else {
+            display.innerHTML = "Non connecté";
+            btnAcc.innerText = "Créer un Compte";
+            document.getElementById('accountForm').classList.remove('hidden');
+            document.getElementById('loggedInView').classList.add('hidden');
         }
     }
 
     function show(id) {
-        document.getElementById('leaderboard').className = (id === 'leaderboard' ? '' : 'hidden');
-        document.getElementById('submit').className = (id === 'submit' ? '' : 'hidden');
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
     }
 
-    // Charger les données au lancement
-    loadData();
-    // Rafraîchir toutes les minutes
-    setInterval(loadData, 60000);
+    // Lancer au démarrage
+    updateUI();
 </script>
 
 </body>
