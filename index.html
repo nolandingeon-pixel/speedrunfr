@@ -3,94 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speedrun Auto-Leaderboard</title>
+    <title>Speedrun Leaderboard Automatique</title>
     <style>
-        :root { --primary: #00ff88; --bg: #121212; --card: #1e1e1e; }
-        body { font-family: sans-serif; background: var(--bg); color: white; text-align: center; }
-        header { padding: 20px; border-bottom: 2px solid var(--primary); }
-        .container { max-width: 900px; margin: auto; padding: 20px; }
-        table { width: 100%; background: var(--card); border-collapse: collapse; margin-top: 20px; border-radius: 8px; overflow: hidden; }
-        th { background: #333; padding: 15px; color: var(--primary); }
-        td { padding: 12px; border-bottom: 1px solid #333; }
-        .btn { background: var(--primary); color: black; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 5px; margin: 10px; }
-        input, select { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        :root { --accent: #00ff88; --bg: #0d0d0d; --card: #1a1a1a; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
+        header { padding: 40px; background: linear-gradient(to bottom, #222, #0d0d0d); border-bottom: 2px solid var(--accent); }
+        .container { max-width: 1000px; margin: auto; padding: 20px; }
+        
+        .nav-btn { background: none; border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; cursor: pointer; border-radius: 5px; margin: 5px; transition: 0.3s; }
+        .nav-btn:hover { background: var(--accent); color: black; }
+
+        table { width: 100%; border-collapse: collapse; background: var(--card); margin-top: 30px; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        th { background: #333; padding: 15px; color: var(--accent); text-transform: uppercase; font-size: 0.9em; }
+        td { padding: 15px; border-bottom: 1px solid #222; }
+        tr:last-child td { border: none; }
+        tr:hover { background: #252525; }
+
+        .video-btn { color: #00ccff; text-decoration: none; font-weight: bold; border: 1px solid #00ccff; padding: 5px 10px; border-radius: 4px; font-size: 0.8em; }
+        .video-btn:hover { background: #00ccff; color: black; }
+        
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🏆 SPEEDRUN AUTOMATIQUE</h1>
-    <button class="btn" onclick="show('leaderboard')">Classement</button>
-    <button class="btn" onclick="show('submit')">Envoyer un Run</button>
+    <h1>🏆 CLASSEMENT SPEEDRUN</h1>
+    <p>Minecraft, Pokémon & plus</p>
+    <nav>
+        <button class="nav-btn" onclick="show('leaderboard')">VOIR LES SCORES</button>
+        <button class="nav-btn" onclick="show('submit')">ENVOYER UN RUN</button>
+    </nav>
 </header>
 
 <div class="container">
     <section id="leaderboard">
-        <h2>Classement en Temps Réel</h2>
         <table>
             <thead>
                 <tr>
                     <th>Rang</th>
                     <th>Joueur</th>
+                    <th>Jeu</th>
                     <th>Temps</th>
                     <th>Pays</th>
-                    <th>Preuve</th>
+                    <th>Vidéo</th>
                 </tr>
             </thead>
             <tbody id="rankingData">
-                <tr><td colspan="5">Chargement des scores...</td></tr>
+                <tr><td colspan="6">Chargement des données en direct...</td></tr>
             </tbody>
         </table>
     </section>
 
     <section id="submit" class="hidden">
-        <h2>Soumettre un Record</h2>
-        <p>Pour que ce soit automatique, crée un <b>Google Form</b> et lie-le à ton Google Sheet.</p>
-        <a href="TON_LIEN_GOOGLE_FORM" target="_blank" class="btn">Ouvrir le formulaire d'envoi</a>
+        <h2>Comment participer ?</h2>
+        <p>1. Enregistre ton speedrun avec un chronomètre visible.</p>
+        <p>2. Publie la vidéo sur YouTube.</p>
+        <p>3. Remplis le formulaire officiel via le bouton ci-dessous :</p>
+        <br>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPgIV5ACOCnu294AGNj-3ElL8krYrv3PWvWDmUfqAGASeh/pub?gid=815242411&single=true&output=csv" target="_blank" class="nav-btn" style="background: var(--accent); color: black;">OUVRIR LE FORMULAIRE</a>
     </section>
 </div>
 
 <script>
-    // URL DE TON GOOGLE SHEET PUBLIÉ EN CSV
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPgIV5ACOCnu294AGNj-3ElL8krYrv3PWvWDmUfqAGASeh/pub?output=csv";
+    // COLLE TON LIEN CSV CI-DESSOUS
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPIv5ACOCNu294AGNj-3EIL8krYrv3PWVwdMUfqAGASetH/pub?gid=815242411&single=true&output=csv";
 
-    async function loadScores() {
-        const response = await fetch(SHEET_URL);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1); // On enlève la première ligne (titres)
-        
-        const tableBody = document.getElementById('rankingData');
-        tableBody.innerHTML = "";
+    async function loadData() {
+        try {
+            const response = await fetch(CSV_URL);
+            const data = await response.text();
+            const rows = data.split('\n').slice(1); // Coupe la ligne des titres
+            
+            const tableBody = document.getElementById('rankingData');
+            tableBody.innerHTML = "";
 
-        // On trie les données par temps (index 2)
-        rows.sort((a, b) => a.split(',')[2].localeCompare(b.split(',')[2]));
+            // Tri par temps (la colonne Temps est l'index 3 car 0=Horodateur, 1=Pseudo, 2=Jeu, 3=Temps)
+            rows.sort((a, b) => a.split(',')[3].localeCompare(b.split(',')[3]));
 
-        rows.forEach((row, index) => {
-            const cols = row.split(',');
-            if(cols.length < 4) return;
+            rows.forEach((row, index) => {
+                const cols = row.split(',');
+                if(cols.length < 5) return;
 
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${index + 1}</td>
-                <td><b>${cols[0]}</b></td>
-                <td>${cols[2]}</td>
-                <td>${cols[3]}</td>
-                <td><a href="${cols[4]}" target="_blank" style="color:cyan">Lien Vidéo</a></td>
-            `;
-            tableBody.appendChild(tr);
-        });
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><b>${cols[1]}</b></td> 
+                    <td>${cols[2]}</td>
+                    <td style="color: var(--accent); font-weight: bold;">${cols[3]}</td>
+                    <td>${cols[4]}</td>
+                    <td><a href="${cols[5]}" target="_blank" class="video-btn">Regarder</a></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error("Erreur de chargement :", error);
+        }
     }
 
     function show(id) {
-        document.getElementById('leaderboard').classList.toggle('hidden', id !== 'leaderboard');
-        document.getElementById('submit').classList.toggle('hidden', id !== 'submit');
+        document.getElementById('leaderboard').className = (id === 'leaderboard' ? '' : 'hidden');
+        document.getElementById('submit').className = (id === 'submit' ? '' : 'hidden');
     }
 
-    // Charger les scores au démarrage
-    loadScores();
+    // Charger les données au lancement
+    loadData();
+    // Rafraîchir toutes les minutes
+    setInterval(loadData, 60000);
 </script>
 
 </body>
-
 </html>
+
