@@ -5,82 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speedrun Leaderboard Officiel</title>
     <style>
-        /* --- DESIGN GAMING --- */
-        :root { 
-            --accent: #00ff88; 
-            --bg: #0d0d0d; 
-            --card: #1a1a1a; 
-            --text: #ffffff;
-        }
-
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            margin: 0; 
-            text-align: center; 
-        }
-
-        header { 
-            padding: 30px; 
-            background: linear-gradient(180deg, #222, #0d0d0d); 
-            border-bottom: 3px solid var(--accent); 
-        }
-
+        :root { --accent: #00ff88; --bg: #0d0d0d; --card: #1a1a1a; --text: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; text-align: center; }
+        header { padding: 30px; background: linear-gradient(180deg, #222, #0d0d0d); border-bottom: 3px solid var(--accent); }
         .container { max-width: 1000px; margin: auto; padding: 20px; }
-
-        .nav-btn { 
-            background: none; 
-            border: 1px solid var(--accent); 
-            color: var(--accent); 
-            padding: 10px 20px; 
-            cursor: pointer; 
-            border-radius: 5px; 
-            margin: 5px; 
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
+        .nav-btn { background: none; border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; cursor: pointer; border-radius: 5px; margin: 5px; font-weight: bold; transition: 0.3s; text-decoration: none; display: inline-block; }
         .nav-btn:hover { background: var(--accent); color: black; }
-
-        .account-badge { 
-            background: #333; 
-            padding: 8px 15px; 
-            border-radius: 20px; 
-            font-size: 0.85em; 
-            margin-bottom: 15px; 
-            display: inline-block;
-            border: 1px solid #444;
-        }
-
-        /* --- TABLEAU --- */
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            background: var(--card); 
-            margin-top: 20px; 
-            border-radius: 10px; 
-            overflow: hidden; 
-        }
-
+        .account-badge { background: #333; padding: 8px 15px; border-radius: 20px; font-size: 0.85em; margin-bottom: 15px; display: inline-block; border: 1px solid #444; }
+        table { width: 100%; border-collapse: collapse; background: var(--card); margin-top: 20px; border-radius: 10px; overflow: hidden; }
         th { background: #252525; padding: 15px; color: var(--accent); text-transform: uppercase; }
         td { padding: 15px; border-bottom: 1px solid #222; }
         tr:hover { background: #222; }
-
-        /* --- FORMULAIRES --- */
-        input, select { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 10px 0; 
-            background: #222; 
-            color: white; 
-            border: 1px solid #444; 
-            border-radius: 5px; 
-            box-sizing: border-box;
-        }
-
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #222; color: white; border: 1px solid #444; border-radius: 5px; box-sizing: border-box; }
         .hidden { display: none; }
-        .video-link { color: #00ccff; text-decoration: none; font-weight: bold; }
+        .video-link { color: #00ccff; text-decoration: none; font-weight: bold; border: 1px solid #00ccff; padding: 4px 8px; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -96,7 +34,6 @@
 </header>
 
 <div class="container">
-
     <section id="leaderboard">
         <h2>Top Performances</h2>
         <table>
@@ -119,99 +56,83 @@
     <section id="account" class="hidden">
         <h2>Gestion du Profil</h2>
         <div id="accountForm">
-            <p>Créez un profil local pour envoyer vos runs plus facilement.</p>
-            <input type="text" id="regPseudo" placeholder="Votre Pseudo">
-            <input type="password" id="regPass" placeholder="Mot de passe (facultatif)">
+            <input type="text" id="regPseudo" placeholder="Pseudo">
             <select id="regCountry">
                 <option value="France 🇫🇷">France 🇫🇷</option>
                 <option value="Belgique 🇧🇪">Belgique 🇧🇪</option>
-                <option value="Canada 🇨🇦">Canada 🇨🇦</option>
                 <option value="Suisse 🇨🇭">Suisse 🇨🇭</option>
+                <option value="Canada 🇨🇦">Canada 🇨🇦</option>
                 <option value="Algérie 🇩🇿">Algérie 🇩🇿</option>
                 <option value="Maroc 🇲🇦">Maroc 🇲🇦</option>
             </select>
             <button class="nav-btn" onclick="register()">S'INSCRIRE</button>
         </div>
         <div id="loggedInView" class="hidden">
-            <p>Vous êtes actuellement connecté.</p>
+            <p>Vous êtes connecté.</p>
             <button class="nav-btn" style="border-color: #ff4444; color: #ff4444;" onclick="logout()">SE DÉCONNECTER</button>
         </div>
     </section>
 
     <section id="submit" class="hidden">
         <h2>Soumettre un Speedrun</h2>
-        <p id="submitMsg">⚠️ Identifiez-vous dans l'onglet "MON COMPTE" avant d'envoyer.</p>
+        <p id="submitMsg">Connecte-toi pour être identifié !</p>
         <br>
-        <a href="ICI_TON_LIEN_GOOGLE_FORM" id="formLink" target="_blank" class="nav-btn" style="background: var(--accent); color: black;">OUVRIR LE FORMULAIRE D'ENVOI</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdTzJABJDP5mwDCfqSw54aRxYFtsCqqJxXq8BdWksTA0y85sw/viewform?usp=header" target="_blank" class="nav-btn" style="background: var(--accent); color: black;">OUVRIR LE FORMULAIRE D'ENVOI</a>
     </section>
-
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPIv5ACOCNu294AGNj-3EIL8krYrv3PWVwdMUfqAGASetH/pub?gid=815242411&single=true&output=csv";
+    // TES LIENS CONFIGURÉS
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHI5A1WYK_7ie1bHHHWhu9Lj74N99FdYNPgIV5ACOCnu294AGNj-3ElL8krYrv3PWVWDmUfqAGASeh/pub?output=csv";
 
-    // --- CHARGEMENT DES DONNÉES ---
     async function loadScores() {
         try {
             const response = await fetch(CSV_URL);
             const data = await response.text();
-            const rows = data.split('\n').slice(1); // Skip header row
-            
+            const rows = data.split('\n').slice(1); 
             const tableBody = document.getElementById('rankingData');
             tableBody.innerHTML = "";
 
-            // Tri par temps (colonne index 3)
-            rows.sort((a, b) => {
-                const timeA = a.split(',')[3] || "99:99:99";
-                const timeB = b.split(',')[3] || "99:99:99";
-                return timeA.localeCompare(timeB);
-            });
+            if(rows.length === 0 || rows[0].trim() === "") {
+                tableBody.innerHTML = "<tr><td colspan='6'>Aucun score pour le moment. Soyez le premier !</td></tr>";
+                return;
+            }
+
+            rows.sort((a, b) => (a.split(',')[3] || "99:99").localeCompare(b.split(',')[3] || "99:99"));
 
             rows.forEach((row, index) => {
                 const cols = row.split(',');
-                if(cols.length < 5) return;
-
+                if(cols.length < 4) return;
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${index + 1}</td>
-                    <td><b>${cols[1]}</b></td>
-                    <td>${cols[2]}</td>
-                    <td style="color: var(--accent); font-weight: bold;">${cols[3]}</td>
-                    <td>${cols[4]}</td>
-                    <td><a class="video-link" href="${cols[5]}" target="_blank">🎬 Vidéo</a></td>
+                    <td><b>${cols[1] || '---'}</b></td>
+                    <td>${cols[2] || '---'}</td>
+                    <td style="color: var(--accent); font-weight: bold;">${cols[3] || '---'}</td>
+                    <td>${cols[4] || '---'}</td>
+                    <td><a class="video-link" href="${cols[5]}" target="_blank">🎬 Voir</a></td>
                 `;
                 tableBody.appendChild(tr);
             });
-        } catch (e) {
-            console.error("Erreur de chargement des scores.");
-        }
+        } catch (e) { tableBody.innerHTML = "<tr><td colspan='6'>Erreur de connexion au tableau.</td></tr>"; }
     }
 
-    // --- GESTION DU COMPTE ---
     function register() {
         const pseudo = document.getElementById('regPseudo').value;
         const pays = document.getElementById('regCountry').value;
         if(pseudo) {
-            const user = { pseudo, pays };
-            localStorage.setItem('speedrunUser', JSON.stringify(user));
+            localStorage.setItem('speedrunUser', JSON.stringify({pseudo, pays}));
             updateUI();
             show('leaderboard');
-        } else {
-            alert("Veuillez entrer un pseudo.");
         }
     }
 
-    function logout() {
-        localStorage.removeItem('speedrunUser');
-        updateUI();
-    }
+    function logout() { localStorage.removeItem('speedrunUser'); updateUI(); }
 
     function updateUI() {
         const user = JSON.parse(localStorage.getItem('speedrunUser'));
         const display = document.getElementById('userDisplay');
         const msg = document.getElementById('submitMsg');
-        
         if(user) {
             display.innerHTML = `👤 ${user.pseudo} (${user.pays})`;
             msg.innerHTML = `✅ Prêt à envoyer, <b>${user.pseudo}</b> !`;
@@ -219,25 +140,20 @@
             document.getElementById('loggedInView').classList.remove('hidden');
         } else {
             display.innerHTML = "Non connecté";
-            msg.innerHTML = "⚠️ Identifiez-vous dans l'onglet 'MON COMPTE' avant d'envoyer.";
+            msg.innerHTML = "⚠️ Connecte-toi d'abord pour valider ton pseudo.";
             document.getElementById('accountForm').classList.remove('hidden');
             document.getElementById('loggedInView').classList.add('hidden');
         }
     }
 
-    // --- NAVIGATION ---
     function show(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
         if(id === 'leaderboard') loadScores();
     }
 
-    // Initialisation
     updateUI();
     loadScores();
 </script>
-
 </body>
 </html>
-
-
